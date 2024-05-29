@@ -1,4 +1,4 @@
-
+library(latex2exp)
 rr <- read.table("results.txt")
 
 tols<-unique(rr$tol)
@@ -10,10 +10,8 @@ plot(rr$tol*(1+runif(length(rr$tol),min=-0.1,max=0.1)),rr$mean,log="x",pch=19,ce
 axis(1,at=sort(tols),las=1,cex.axis=1.4)
 lines(c(1e-14,1000),c(0,0),col="red")
 for(tol in tols){
-  tt <- t.test(rr$mean[rr$tol==tol])
-  lines(c(tol,tol),tt$conf.int,col="black",lwd=2)
-  lines(c(0.8*tol,1.2*tol),rep(tt$conf.int[1],2),col="black",lwd=2)
-  lines(c(0.8*tol,1.2*tol),rep(tt$conf.int[2],2),col="black",lwd=2)
+  tt <- rr$mean[rr$tol==tol]
+  lines(c(0.8*tol,1.2*tol),rep(mean(tt),2),col="black",lwd=2)
 }
 plot(rr$tol*(1+runif(length(rr$tol),min=-0.1,max=0.1)),rr$sd,log="x",pch=19,cex=0.5,col="grey",xaxt="n",
      xlab="tolerence",ylab="deviation from true value",main=TeX("$SD(q_1)$"),
@@ -21,9 +19,8 @@ plot(rr$tol*(1+runif(length(rr$tol),min=-0.1,max=0.1)),rr$sd,log="x",pch=19,cex=
 axis(1,at=sort(tols),las=1,cex.axis=1.4)
 lines(c(1e-14,1000),c(0,0),col="red")
 for(tol in tols){
-  tt <- t.test(rr$sd[rr$tol==tol])
-  lines(c(tol,tol),tt$conf.int,col="black",lwd=2)
-  lines(c(0.8*tol,1.2*tol),rep(tt$conf.int[1],2),col="black",lwd=2)
-  lines(c(0.8*tol,1.2*tol),rep(tt$conf.int[2],2),col="black",lwd=2)
+  tt <- rr$sd[rr$tol==tol]
+  
+  lines(c(0.8*tol,1.2*tol),rep(mean(tt),2),col="black",lwd=2)
 }
 dev.off()
